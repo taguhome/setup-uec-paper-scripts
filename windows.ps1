@@ -156,13 +156,12 @@ $pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存�
 ##$pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
 
 
-"@ 
+"@
 
-Write-Output $latexmkrcContent 
-Out-File -FilePath $latexmkrcPath -Encoding UTF8 -Force
+Write-Output $latexmkrcContent | Out-File -FilePath $latexmkrcPath -Encoding UTF8 -Force
+
 
 New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
-  New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
 
   @"
 {
