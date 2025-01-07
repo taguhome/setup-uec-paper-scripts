@@ -110,7 +110,7 @@ function Install-VSCode() {
 
   Start-Process -Wait -NoNewWindow -FilePath "$vscodeInstallerPath" -Args "/VERYSILENT /NORESTART /MERGETASKS=!runcode,desktopicon,addcontextmenufiles,addcontextmenufolders,associatewithfiles,addtopath"
 
-  New-Item -ItemType Directory -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
+  # New-Item -ItemType Directory -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
 
   @"
 # 通常の LaTeX ドキュメントのビルドコマンド
