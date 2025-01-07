@@ -112,7 +112,7 @@ function Install-VSCode() {
 
   # New-Item -ItemType Directory -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
 
-  @"
+  $latexmkrcContent =@"
 # 通常の LaTeX ドキュメントのビルドコマンド
 $latex = 'uplatex %O -kanji=utf8 -no-guess-input-enc -synctex=1 -interaction=nonstopmode %S';
 #
