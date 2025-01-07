@@ -109,8 +109,8 @@ function Install-VSCode() {
   Write-LabeledOutput "Visual Studio Code" "インストールを開始します"
 
 
-  Start-Process -Wait -NoNewWindow -FilePath "$vscodeInstallerPath" -Args "/VERYSILENT"
-  # New-Item -ItemType Directory -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
+  Start-Process -Wait -NoNewWindow -FilePath "$vscodeInstallerPath" -Args "/VERYSILENT /NORESTART /MERGETASKS=!runcode"
+  New-Item -ItemType Directory -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
 
 $latexmkrcContent = @"
 # 通常の LaTeX ドキュメントのビルドコマンド
