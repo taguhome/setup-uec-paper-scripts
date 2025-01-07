@@ -113,7 +113,7 @@ function Install-VSCode() {
 
   # New-Item -ItemType Directory -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
 
-  $latexmkrcContent =@"
+$latexmkrcContent = @"
 # 通常の LaTeX ドキュメントのビルドコマンド
 $latex = 'uplatex %O -kanji=utf8 -no-guess-input-enc -synctex=1 -interaction=nonstopmode %S';
 #
@@ -156,7 +156,10 @@ $pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存�
 ##$pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
 
 
-"@ | Write-Output $latexmkrcContent | Out-File -FilePath $latexmkrcPath -Encoding UTF8 -Force
+"@ 
+
+Write-Output $latexmkrcContent 
+Out-File -FilePath $latexmkrcPath -Encoding UTF8 -Force
 
 New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
   New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
