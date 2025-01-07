@@ -663,7 +663,7 @@ if (Find-Executable "tlmgr") {
     Install-TeXLive
   }
 }
-else {
+else (Show-YesNoPrompt "TeX Live はインストールされていません。""TeX Live をインストールしますか?"){
   Install-TeXLive
 }
 
@@ -672,6 +672,6 @@ if ((Test-Path "$vscodeLocalExePath") -or (Test-Path "$vscodeExePath")) {
     Install-VSCode
   }
 }
-else {
+else (Show-YesNoPrompt "VScode はインストールされていません。""VScode をインストールしますか?"){
   Install-VSCode
 }
