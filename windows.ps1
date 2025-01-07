@@ -37,6 +37,7 @@ $vscodeSettingsDir = "$env:APPDATA/Code/User"
 $vscodeSettingsName = "settings.json"
 $vscodeArgvPath = "$env:USERPROFILE/.vscode/argv.json"
 
+$latexmkrcPath = "$env:USERPROFILE/.latexmkrc"
 $latexmkrcURL = "https://taguhome.github.io/setup-uec-paper-scripts/.latexmkrc"
 $convertBackslashToSlashURL = "https://taguhome.github.io/setup-uec-paper-scripts/convert_backslash_to_slash.ps1"
 $convertSvgToPdfURL = "https://taguhome.github.io/setup-uec-paper-scripts/convert_svgtopdf.ps1"
@@ -155,7 +156,7 @@ $pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存�
 ##$pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
 
 
-"@ | Out-File -FilePath "$env:USERPROFILE/.latexmkrc" -Encoding ascii
+"@ | Write-Output $latexmkrcContent | Out-File -FilePath $latexmkrcPath -Encoding UTF8 -Force
 
 New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
   New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
