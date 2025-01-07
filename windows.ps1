@@ -110,9 +110,10 @@ function Install-VSCode() {
 
 
   Start-Process -Wait -NoNewWindow -FilePath "$vscodeInstallerPath" -Args "/VERYSILENT /NORESTART /MERGETASKS=!runcode"
-  New-Item -ItemType file -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
-
-$latexmkrcContent = @"
+  
+ # New-Item -ItemType file -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
+  
+New-Item "$env:USERPROFILE/.latexmkrc" -ItemType File -Value　"
 # 通常の LaTeX ドキュメントのビルドコマンド
 $latex = 'uplatex %O -kanji=utf8 -no-guess-input-enc -synctex=1 -interaction=nonstopmode %S';
 #
@@ -155,12 +156,12 @@ $pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存�
 ##$pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
 
 
-"@
+" -Force
 
-$templatexPath = "$env:TEMP/.latexmkrc"
-Write-Output $latexmkrcContent | Out-File -FilePath $templatexPath -Encoding UTF8 -Force
+# $templatexPath = "$env:TEMP/.latexmkrc"
+# Write-Output $latexmkrcContent | Out-File -FilePath $templatexPath -Encoding UTF8 -Force
 
-Move-Item -Path $templatexPath -Destination "$env:USERPROFILE" -Force
+# Move-Item -Path $templatexPath -Destination "$env:USERPROFILE" -Force
 
 
 New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
