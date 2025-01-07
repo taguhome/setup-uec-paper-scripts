@@ -37,24 +37,24 @@ $vscodeSettingsDir = "$env:APPDATA/Code/User"
 $vscodeSettingsName = "settings.json"
 $vscodeArgvPath = "$env:USERPROFILE/.vscode/argv.json"
 
-$latexmkrcPath = "https://taguhome.github.io/.latexmkrc"
-$convertBackslashToSlashPath = "https://taguhome.github.io/convert_backslash_to_slash.ps1"
-$convertSvgToPdfPath = "https://taguhome.github.io/convert_svgtopdf.ps1"
-$latexJsonPath = "https://taguhome.github.io/latex.json"
+$latexmkrcPath = "$env:TEMP/.latexmkrc"
+$convertBackslashToSlashPath = "$env:TEMP/convert_backslash_to_slash.ps1"
+$convertSvgToPdfPath = "$env:TEMP/convert_svgtopdf.ps1"
+$latexJsonPath = "$env:TEMP/latex.json"
 
 function Copy-AdditionalFiles() {
   Write-LabeledOutput "ファイルコピー" ".latexmkrc をユーザーディレクトリにコピーしています..."
-  Copy-Item -Path "$latexmkrcPath" -Destination "$env:USERPROFILE/.latexmkrc" -Force
+  Copy-Item -Path "$latexmkrcPath" -Destination "$env:USERPROFILE" -Force
 
   Write-LabeledOutput "ファイルコピー" "convert_backslash_to_slash.ps1 を .vscode にコピーしています..."
   New-Item -ItemType Directory -Path "$env:USERPROFILE/.vscode" -Force > $null
-  Copy-Item -Path "$convertBackslashToSlashPath" -Destination "$env:USERPROFILE/.vscode/convert_backslash_to_slash.ps1" -Force
+  Copy-Item -Path "$convertBackslashToSlashPath" -Destination "$env:USERPROFILE/.vscode" -Force
 
   Write-LabeledOutput "ファイルコピー" "convert_svgtopdf.ps1 を .vscode にコピーしています..."
-  Copy-Item -Path "$convertSvgToPdfPath" -Destination "$env:USERPROFILE/.vscode/convert_svgtopdf.ps1" -Force
+  Copy-Item -Path "$convertSvgToPdfPath" -Destination "$env:USERPROFILE/.vscode" -Force
 
   Write-LabeledOutput "ファイルコピー" "latex.json を VSCode ユーザースペースに反映しています..."
-  Copy-Item -Path "$latexJsonPath" -Destination "$vscodeSettingsDir/latex.json" -Force
+  Copy-Item -Path "$latexJsonPath" -Destination "$vscodeSettingsDir" -Force
 }
 
 function Install-TeXLive () {
