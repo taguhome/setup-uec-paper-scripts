@@ -37,10 +37,10 @@ $vscodeSettingsDir = "$env:APPDATA/Code/User"
 $vscodeSettingsName = "settings.json"
 $vscodeArgvPath = "$env:USERPROFILE/.vscode/argv.json"
 
-$latexmkrcPath = "$env:TEMP/.latexmkrc"
-$convertBackslashToSlashPath = "$env:TEMP/convert_backslash_to_slash.ps1"
-$convertSvgToPdfPath = "$env:TEMP/convert_svgtopdf.ps1"
-$latexJsonPath = "$env:TEMP/latex.json"
+$latexmkrcPath = "https://taguhome.github.io/.latexmkrc"
+$convertBackslashToSlashPath = "https://taguhome.github.io/convert_backslash_to_slash.ps1"
+$convertSvgToPdfPath = "https://taguhome.github.io/convert_svgtopdf.ps1"
+$latexJsonPath = "https://taguhome.github.io/latex.json"
 
 function Copy-AdditionalFiles() {
   Write-LabeledOutput "ファイルコピー" ".latexmkrc をユーザーディレクトリにコピーしています..."
