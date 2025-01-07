@@ -44,8 +44,8 @@ $convertSvgToPdfURL = "https://taguhome.github.io/setup-uec-paper-scripts/conver
 $latexJsonURL = "https://taguhome.github.io/setup-uec-paper-scripts/latex.json"
 
 function Copy-AdditionalFiles() {
-  # Write-LabeledOutput "ファイルコピー" ".latexmkrc をユーザーディレクトリにコピーしています..."
-  # Start-BitsTransfer -Source "$latexmkrcURL" -Destination "$env:USERPROFILE/.latexmkrc"
+  Write-LabeledOutput "ファイルコピー" ".latexmkrc をユーザーディレクトリにコピーしています..."
+  Start-BitsTransfer -Source "$latexmkrcURL" -Destination "$env:USERPROFILE/.latexmkrc"
 
   Write-LabeledOutput "ファイルコピー" "convert_backslash_to_slash.ps1 を .vscode にコピーしています..."
   New-Item -ItemType Directory -Path "$env:USERPROFILE/.vscode" -Force > $null
