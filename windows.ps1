@@ -55,7 +55,7 @@ function Copy-AdditionalFiles() {
   Start-BitsTransfer -Source "$convertSvgToPdfURL" -Destination "$env:USERPROFILE/.vscode/convert_svgtopdf.ps1" 
 
   Write-LabeledOutput "ファイルコピー" "latex.json を VSCode ユーザースペースに反映しています..."
-  Start-BitsTransfer -Source "$latexJsonURL" -Destination "$vscodeSettingsDir/snippets/latex.json" -Force
+  Start-BitsTransfer -Source "$latexJsonURL" -Destination "$vscodeSettingsDir/snippets/latex.json"
 }
 
 function Install-TeXLive () {
