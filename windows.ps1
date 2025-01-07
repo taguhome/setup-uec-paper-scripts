@@ -113,8 +113,7 @@ function Install-VSCode() {
   
  # New-Item -ItemType file -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
   
-New-Item "$env:USERPROFILE/.latexmkrc" -ItemType File -Value　"
-# 通常の LaTeX ドキュメントのビルドコマンド
+New-Item "$env:USERPROFILE/*.latexmkrc" -ItemType File -Value　"# 通常の LaTeX ドキュメントのビルドコマンド
 $latex = 'uplatex %O -kanji=utf8 -no-guess-input-enc -synctex=1 -interaction=nonstopmode %S';
 #
 $uplatex = 'uplatex %O  -synctex=1 -interaction=nonstopmode %S';
@@ -154,8 +153,6 @@ $pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存�
 ## ぜひ SyncTeX 機能のあるビューアーをインストールしよう。
 ## SumatraPDF: https://www.sumatrapdfreader.org/free-pdf-reader.html
 ##$pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
-
-
 " -Force
 
 # $templatexPath = "$env:TEMP/.latexmkrc"
