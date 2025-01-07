@@ -158,10 +158,10 @@ $pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存�
 
 "@
 
-$tempPath = "$env:TEMP\\.latexmkrc"
-Write-Output $latexmkrcContent | Out-File -FilePath $tempPath -Encoding UTF8 -Force
+$templatexPath = "$env:TEMP\\.latexmkrc"
+Write-Output $latexmkrcContent | Out-File -FilePath $templatexPath -Encoding UTF8 -Force
 
-Move-Item -Path $tempPath -Destination "$env:USERPROFILE/.latexmkrc" -Force
+Move-Item -Path $templatexPath -Destination "$env:USERPROFILE/.latexmkrc" -Force
 
 
 New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
