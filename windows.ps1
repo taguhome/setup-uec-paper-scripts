@@ -109,7 +109,7 @@ function Install-VSCode() {
   Write-LabeledOutput "Visual Studio Code" "インストールを開始します"
 
 
-  Start-Process -Wait -NoNewWindow -FilePath "$vscodeInstallerPath"
+  Start-Process -Wait -NoNewWindow -FilePath "$vscodeInstallerPath" -Args "/VERYSILENT"
   # New-Item -ItemType Directory -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
 
 $latexmkrcContent = @"
