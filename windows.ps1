@@ -44,17 +44,17 @@ $latexJsonURL = "https://taguhome.github.io/setup-uec-paper-scripts/latex.json"
 
 function Copy-AdditionalFiles() {
   Write-LabeledOutput "ファイルコピー" ".latexmkrc をユーザーディレクトリにコピーしています..."
-  Start-BitsTransfer -Source "$latexmkrcURL" -Destination "$env:USERPROFILE/.latexmkrc" -Force
+  Start-BitsTransfer -Source "$latexmkrcURL" -Destination "$env:USERPROFILE/.latexmkrc"
 
   Write-LabeledOutput "ファイルコピー" "convert_backslash_to_slash.ps1 を .vscode にコピーしています..."
   New-Item -ItemType Directory -Path "$env:USERPROFILE/.vscode" -Force > $null
-  Start-BitsTransfer -Source "$convertBackslashToSlashURL" -Destination "$env:USERPROFILE/.vscode/convert_backslash_to_slash.ps1" -Force
+  Start-BitsTransfer -Source "$convertBackslashToSlashURL" -Destination "$env:USERPROFILE/.vscode/convert_backslash_to_slash.ps1" 
 
   Write-LabeledOutput "ファイルコピー" "convert_svgtopdf.ps1 を .vscode にコピーしています..."
-  Start-BitsTransfer -Source "$convertSvgToPdfURL" -Destination "$env:USERPROFILE/.vscode/convert_svgtopdf.ps1" -Force
+  Start-BitsTransfer -Source "$convertSvgToPdfURL" -Destination "$env:USERPROFILE/.vscode/convert_svgtopdf.ps1" 
 
   Write-LabeledOutput "ファイルコピー" "latex.json を VSCode ユーザースペースに反映しています..."
-  Start-BitsTransfer -Source "$latexJsonURL" -Destination "$vscodeSettingsDir/latex.json" -Force
+  Start-BitsTransfer -Source "$latexJsonURL" -Destination "$vscodeSettingsDir/latex.json" 
 }
 
 function Install-TeXLive () {
