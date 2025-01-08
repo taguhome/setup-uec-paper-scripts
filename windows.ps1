@@ -705,8 +705,6 @@ New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
   Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension James-Yu.latex-workshop"
   Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension mechatroner.rainbow-csv"
 
-  Copy-AdditionalFiles
-
   Pop-Location
   Remove-Item -Recurse "$workDir"
 
@@ -719,15 +717,19 @@ if (Find-Executable "tlmgr") {
   }
 }
 else {
-
   Install-TeXLive
-
 }
-
 if ((Test-Path "$vscodeLocalExePath") -or (Test-Path "$vscodeExePath")) {
   if (Show-YesNoPrompt "Visual Studio Code はすでにインストールされています。" "それでもVisual Studio Code をインストールしますか?") {
     Install-VSCode
   }
 }
 else{Install-VSCode
+}
+if (Test-Path "$vscodeSettingsDir/snippets/latex.json") {
+  if (Show-YesNoPrompt "関連資料 はすでにインストールされています。" "それでもインストールしますか?") {
+    Copy-AdditionalFiles
+  }
+}
+else{Copy-AdditionalFiles
 }
