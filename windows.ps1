@@ -186,14 +186,14 @@ VSCode + \LaTeX の環境構築が完了しました！
 \end{document}
 "@ | ForEach-Object { [Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path "$examplelatexDir/$exampleName" -Encoding Byte
 
-  $vscodeProcess = Start-Process -WindowStyle Hidden -FilePath "$vscodeExePath" -PassThru
-  Start-Sleep -Seconds 5
-  Stop-Process -Force -InputObject $vscodeProcess
-
 
   $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 
   runas /machine:$(${env:PROCESSOR_ARCHITECTURE}.ToLower()) /trustlevel:0x20000 "$vscodeExePath `"$examplelatexDir`" `"$examplelatexDir/$exampleName`""
+
+  $vscodeProcess = Start-Process -WindowStyle Hidden -FilePath "$vscodeExePath" -PassThru
+  Start-Sleep -Seconds 5
+  Stop-Process -Force -InputObject $vscodeProcess
   
 }
 
