@@ -42,6 +42,7 @@ $latexmkrcURL = "https://taguhome.github.io/setup-uec-paper-scripts/.latexmkrc"
 $convertBackslashToSlashURL = "https://taguhome.github.io/setup-uec-paper-scripts/convert_backslash_to_slash.ps1"
 $convertSvgToPdfURL = "https://taguhome.github.io/setup-uec-paper-scripts/convert_svgtopdf.ps1"
 $latexJsonURL = "https://taguhome.github.io/setup-uec-paper-scripts/latex.json"
+$latexmkrcName = ".latexmkrc"
 
 function Copy-AdditionalFiles() {
   # Write-LabeledOutput "ファイルコピー" ".latexmkrc をユーザーディレクトリにコピーしています..."
@@ -57,7 +58,7 @@ function Copy-AdditionalFiles() {
   Write-LabeledOutput "ファイルコピー" "latex.json を VSCode ユーザースペースに反映しています..."
   Start-BitsTransfer -Source "$latexJsonURL" -Destination "$vscodeSettingsDir/snippets/latex.json"
 
-    New-Item -ItemType file -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
+    New-Item -ItemType Directory -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
 $latexmkrcContent = @"
 # 通常の LaTeX ドキュメントのビルドコマンド
 $latex = 'uplatex %O -kanji=utf8 -no-guess-input-enc -synctex=1 -interaction=nonstopmode %S';
@@ -104,8 +105,96 @@ $pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存�
 $templatexPath = "$env:TEMP/.latexmkrc"
 Write-Output $latexmkrcContent | Out-File -FilePath $templatexPath -Encoding UTF8 -Force
 
-Move-Item -Path $templatexPath -Destination "$env:USERPROFILE" -Force
+Move-Item -Path $templatexPath/.latexmkrc -Destination "$env:USERPROFILE" -Force
+
+ @"
+# 通常の LaTeX ドキュメントのビルドコマンド
+$latex = 'uplatex %O -kanji=utf8 -no-guess-input-enc -synctex=1 -interaction=nonstopmode %S';
+#
+$uplatex = 'uplatex %O  -synctex=1 -interaction=nonstopmode %S';
+# pdfLaTeX のビルドコマンド
+$pdflatex = 'pdflatex %O -synctex=1 -interaction=nonstopmode %S';
+# LuaLaTeX のビルドコマンド
+$lualatex = 'lualatex %O -synctex=1 -interaction=nonstopmode %S';
+# XeLaTeX のビルドコマンド
+$xelatex = 'xelatex %O -no-pdf -synctex=1 -shell-escape -interaction=nonstopmode %S';
+# Biber, BibTeX のビルドコマンド
+$biber = 'biber %O --bblencoding=utf8 -u -U --output_safechars %B';
+#$bibtex = 'upbibtex %O %B';
+$platex= 'platex %O -synctex=1 -halt-on-error -interaction=nonstopmode -file-line-error %O %S';
+#$bibtex = 'upbibtex %O %B';
+$bibtex = 'pbibtex %O %B';
+# makeindex のビルドコマンド
+$makeindex = 'upmendex %O -o %D %S';
+# dvipdf のビルドコマンド
+$dvipdf = 'dvipdfmx %O -o %D %S';
+# dvipd のビルドコマンド
+$dvips = 'dvips %O -z -f %S | convbkmk -u > %D';
+$ps2pdf = 'ps2pdf.exe %O %S %D';
+
+# PDF の作成方法を指定するオプション
+## $pdf_mode = 0; PDF を作成しない。
+## $pdf_mode = 1; $pdflatex を利用して PDF を作成。
+## $pdf_mode = 2; $ps2pdf を利用して .ps ファイルから PDF を作成。
+## $pdf_mode = 3; $dvipdf を利用して .dvi ファイルから PDF を作成。
+## $pdf_mode = 4; $lualatex を利用して .dvi ファイルから PDF を作成。
+## $pdf_mode = 5; xdvipdfmx を利用して .xdv ファイルから PDF を作成。
+$pdf_mode = 4;
+
+# PDF viewer の設定
+$pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存のソフトウェアで表示する。
+
+# Windows では SyncTeX(PDF をビューアーで開いたまま中身の更新が可能で更新がビューアーで反映される機能) が利用できる SumatraPDF 等が便利。
+# ぜひ SyncTeX 機能のあるビューアーをインストールしよう。
+# SumatraPDF: https://www.sumatrapdfreader.org/free-pdf-reader.html
+# $pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
+"@ | Out-File -FilePath "$env:USERPROFILE/$latexmkrcName" 
+
 }
+
+function make-example-latex() {
+  $examplelatexDir = "$env:USERPROFILE/.vscode/latex-example"
+  $exampleName = "hello.tex"
+  $exampleAuthor = (Get-WMIObject Win32_UserAccount | Where-Object caption -eq $(whoami)).FullName
+  if (-not $exampleAuthor) {
+    $exampleAuthor = $env:USERNAME
+  }
+
+  $vscodeProcess = Start-Process -WindowStyle Hidden -FilePath "$vscodeExePath" -PassThru
+  Start-Sleep -Seconds 5
+  Stop-Process -Force -InputObject $vscodeProcess
+
+
+  @"
+{
+  "locale": "ja",
+}
+"@ | Out-File -FilePath "$vscodeArgvPath" -Encoding ascii
+
+  New-Item -ItemType Directory -Path "$examplelatexDir" -Force > $null
+  @"
+\documentclass[11pt,a4j]{jsarticle}
+
+\begin{document}
+
+\title{Hello \LaTeX\ World!}
+\author{$exampleAuthor}
+\date{\today}
+\maketitle
+
+VSCode + \LaTeX の環境構築が完了しました！
+
+この文書は、画面右上の右三角マーク(Build LaTeX project)をクリックすることでコンパイルされ、PDFファイルが生成されます。
+
+\end{document}
+"@ | ForEach-Object { [Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path "$exampleDir/$exampleName" -Encoding Byte
+
+  $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+
+  runas /machine:$(${env:PROCESSOR_ARCHITECTURE}.ToLower()) /trustlevel:0x20000 "$vscodeExePath `"$exampleDir`" `"$exampleDir/$exampleName`""
+  
+}
+
 
 function Install-TeXLive () {
   New-Item -ItemType Directory -Path "$workDir" -Force > $null
@@ -162,8 +251,6 @@ function Install-VSCode() {
   
  # New-Item -ItemType file -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
   
-
-
 
 New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
 
@@ -729,6 +816,14 @@ else{Install-VSCode
 if (Test-Path "$vscodeSettingsDir/snippets/latex.json") {
   if (Show-YesNoPrompt "関連資料 はすでにインストールされています。" "それでもインストールしますか?") {
     Copy-AdditionalFiles
+  }
+}
+else{Copy-AdditionalFiles
+}
+if (Test-Path "$examplelatexDir") {
+  if (Show-YesNoPrompt "関連資料とexample はすでにインストールされています。" "それでもインストールしますか?") {
+    Copy-AdditionalFiles
+    make-example-latex
   }
 }
 else{Copy-AdditionalFiles
