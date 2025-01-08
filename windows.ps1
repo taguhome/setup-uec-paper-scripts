@@ -168,8 +168,6 @@ function make-example-latex() {
 
 
   $vscodeProcess = Start-Process -WindowStyle Hidden -FilePath "$vscodeExePath" -PassThru
-  Start-Sleep -Seconds 5
-  Stop-Process -Force -InputObject $vscodeProcess
 
   @"
 {
@@ -193,7 +191,7 @@ VSCode + \LaTeX の環境構築が完了しました！
 この文書は、画面右上の右三角マーク(Build LaTeX project)をクリックすることでコンパイルされ、PDFファイルが生成されます。
 
 \end{document}
-"@ | ForEach-Object { [Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path "$examplelatexDir/$exampleName" -Encoding UTF8
+"@ | ForEach-Object { [Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path "$examplelatexDir/$exampleName" -Encoding Byte
 
 
   $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
