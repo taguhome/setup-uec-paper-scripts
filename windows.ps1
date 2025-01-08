@@ -159,9 +159,11 @@ function make-example-latex() {
   if (-not $exampleAuthor) {
     $exampleAuthor = $env:USERNAME
   }
-    if (-not $vscodeExePath) {
-    $vscodeExePath = $vscodeLocalExePath
+    if (Test-Path $vscodeExePath) {
+    
   }
+  else{$vscodeExePath = $vscodeLocalExePath
+}
 
 
   $vscodeProcess = Start-Process -WindowStyle Hidden -FilePath "$vscodeExePath" -PassThru
