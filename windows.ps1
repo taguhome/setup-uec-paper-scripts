@@ -179,7 +179,7 @@ function make-example-latex() {
 
   New-Item -ItemType Directory -Path "$examplelatexDir" -Force > $null
   @"
-\documentclass[11pt,a4j]{jsarticle}
+\documentclass[a4paper,11pt]{ltjsarticle}
 
 \begin{document}
 
