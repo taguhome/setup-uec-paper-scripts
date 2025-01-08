@@ -820,7 +820,7 @@ if (Test-Path "$vscodeSettingsDir/snippets/latex.json") {
 }
 else{Copy-AdditionalFiles
 }
-if (Test-Path "$examplelatexDir") {
+if (Test-Path "$env:USERPROFILE/.vscode/latex-example") {
   if (Show-YesNoPrompt "example はすでにインストールされています。" "それでもインストールしますか?") {
     make-example-latex
   }
