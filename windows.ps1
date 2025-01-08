@@ -159,7 +159,8 @@ function make-example-latex() {
   if (-not $exampleAuthor) {
     $exampleAuthor = $env:USERNAME
   }
-    if (Test-Path $vscodeExePath) {
+  
+  if (Test-Path $vscodeExePath) {
     
   }
   else{$vscodeExePath = $vscodeLocalExePath
