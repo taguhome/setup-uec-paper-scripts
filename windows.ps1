@@ -160,9 +160,6 @@ function make-example-latex() {
     $exampleAuthor = $env:USERNAME
   }
 
-  $vscodeProcess = Start-Process -WindowStyle Hidden -FilePath "$vscodeExePath" -PassThru
-  Start-Sleep -Seconds 5
-  Stop-Process -Force -InputObject $vscodeProcess
 
 
   @"
@@ -187,11 +184,16 @@ VSCode + \LaTeX の環境構築が完了しました！
 この文書は、画面右上の右三角マーク(Build LaTeX project)をクリックすることでコンパイルされ、PDFファイルが生成されます。
 
 \end{document}
-"@ | ForEach-Object { [Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path "$exampleDir/$exampleName" -Encoding Byte
+"@ | ForEach-Object { [Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path "$examplelatexDir/$exampleName" -Encoding Byte
+
+  $vscodeProcess = Start-Process -WindowStyle Hidden -FilePath "$vscodeExePath" -PassThru
+  Start-Sleep -Seconds 5
+  Stop-Process -Force -InputObject $vscodeProcess
+
 
   $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 
-  runas /machine:$(${env:PROCESSOR_ARCHITECTURE}.ToLower()) /trustlevel:0x20000 "$vscodeExePath `"$exampleDir`" `"$exampleDir/$exampleName`""
+  runas /machine:$(${env:PROCESSOR_ARCHITECTURE}.ToLower()) /trustlevel:0x20000 "$vscodeExePath `"$examplelatexDir`" `"$examplelatexDir/$exampleName`""
   
 }
 
