@@ -151,7 +151,7 @@ $pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存�
 
     # Write-Output $latexmkrcContent | Out-File -FilePath $templatexPath -Encoding UTF8 -Force
 
-    Move-Item -Path "$templatexPath/$latexmkrcName"/ -Destination "$env:USERPROFILE" -Force
+    Move-Item -Path "$templatexPath/$latexmkrcName" -Destination "$env:USERPROFILE" -Force
 
 
 }
