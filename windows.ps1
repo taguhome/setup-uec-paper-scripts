@@ -57,6 +57,7 @@ function Copy-AdditionalFiles() {
 
     Write-LabeledOutput "ファイルコピー" "latex.json を VSCode ユーザースペースに反映しています..."
     Start-BitsTransfer -Source "$latexJsonURL" -Destination "$vscodeSettingsDir/snippets/latex.json"
+    Write-LabeledOutput "ファイルコピー" ".latexmkrc を VSCode ユーザースペースに反映しています..."
 
     # New-Item -ItemType Directory -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
     $latexmkrcContent = @"
