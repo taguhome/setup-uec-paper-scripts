@@ -8,8 +8,8 @@ function Find-Executable (
 
 function Show-YesNoPrompt([string] $title, [string] $message) {
   $options = [System.Management.Automation.Host.ChoiceDescription[]](
-    (New-Object System.Management.Automation.Host.ChoiceDescription $"Yes", "実行する"),
-    (New-Object System.Management.Automation.Host.ChoiceDescription $"No", "実行しない")
+    (New-Object System.Management.Automation.Host.ChoiceDescription  "$Yes" ,  "実行する" ),
+    (New-Object System.Management.Automation.Host.ChoiceDescription  "$No" ,  "実行しない" )
   )
   $defaultChoice = 1
   $Host.UI.PromptForChoice($title, $message, $options, $defaultChoice) -eq 0
