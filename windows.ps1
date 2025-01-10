@@ -809,7 +809,7 @@ VSCode + \LaTeX の環境構築が完了しました！
 
   #runas /machine:$(${env:PROCESSOR_ARCHITECTURE}.ToLower()) /trustlevel:0x40000 "$vscodeExePath `"$examplelatexDir`" `"$examplelatexDir/$exampleName`""
 
-Start-Process -FilePath "$vscodeExePath" -ArgumentList "`"$examplelatexDir/$exampleName`""
+Start-Process -FilePath "$vscodeExePath" -ArgumentList `"$examplelatexDir`"　"`"$examplelatexDir/$exampleName`""
 
 
   
