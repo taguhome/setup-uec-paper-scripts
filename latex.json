@@ -48,7 +48,7 @@
             "(研究経過報告)\\newline",
             "${1}}",
             "\\date{\\rightline{\\today}}",
-            "\\author{\\rightline{2187167Z 橋本卓磨}}",
+            "\\author{\\rightline{学籍番号 名前}}",
             "\\maketitle",
             "",
             "",
