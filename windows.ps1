@@ -152,53 +152,6 @@ $pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存�
 
 }
 
-function make-example-latex() {
-  $examplelatexDir = "$env:USERPROFILE/.vscode/latex-example"
-  $exampleName = "hello.tex"
-  $exampleAuthor = (Get-WMIObject Win32_UserAccount | Where-Object caption -eq $(whoami)).FullName
-  if (-not $exampleAuthor) {
-    $exampleAuthor = $env:USERNAME
-  }
-  
-  if (Test-Path $vscodeExePath) {
-    
-  }
-  else{$vscodeExePath = $vscodeLocalExePath
-}
-
-
-  $vscodeProcess = Start-Process -WindowStyle Hidden -FilePath "$vscodeExePath" -PassThru
-
- New-Item -ItemType Directory -Path "$examplelatexDir" -Force > $null
-  @"
-\documentclass[a4paper,11pt]{ltjsarticle}
-
-\begin{document}
-
-\title{Hello \LaTeX\ World!}
-\author{$exampleAuthor}
-\date{\today}
-\maketitle
-
-VSCode + \LaTeX の環境構築が完了しました！
-
-この文書は、画面右上の右三角マーク(Build LaTeX project)をクリックすることでコンパイルされ、PDFファイルが生成されます。
-
-\end{document}
-"@  | Set-Content -Path "$examplelatexDir/$exampleName" -Encoding UTF8
-
-#| ForEach-Object { [Text.Encoding]::UTF8.GetBytes($_) }
-  $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
-
-  #runas /machine:$(${env:PROCESSOR_ARCHITECTURE}.ToLower()) /trustlevel:0x40000 "$vscodeExePath `"$examplelatexDir`" `"$examplelatexDir/$exampleName`""
-
-Start-Process -FilePath "$vscodeExePath" -ArgumentList "`"$examplelatexDir/$exampleName`""
-
-
-  
-}
-
-
 function Install-TeXLive () {
   New-Item -ItemType Directory -Path "$workDir" -Force > $null
   Push-Location "$workDir"
@@ -814,6 +767,55 @@ New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
 
   Write-LabeledOutput  "Visual Studio Code" "インストールを完了しました"
 }
+
+
+function make-example-latex() {
+  $examplelatexDir = "$env:USERPROFILE/.vscode/latex-example"
+  $exampleName = "hello.tex"
+  $exampleAuthor = (Get-WMIObject Win32_UserAccount | Where-Object caption -eq $(whoami)).FullName
+  if (-not $exampleAuthor) {
+    $exampleAuthor = $env:USERNAME
+  }
+  
+  if (Test-Path $vscodeExePath) {
+    
+  }
+  else{$vscodeExePath = $vscodeLocalExePath
+}
+
+
+  $vscodeProcess = Start-Process -WindowStyle Hidden -FilePath "$vscodeExePath" -PassThru
+
+ New-Item -ItemType Directory -Path "$examplelatexDir" -Force > $null
+  @"
+\documentclass[a4paper,11pt]{ltjsarticle}
+
+\begin{document}
+
+\title{Hello \LaTeX\ World!}
+\author{$exampleAuthor}
+\date{\today}
+\maketitle
+
+VSCode + \LaTeX の環境構築が完了しました！
+
+この文書は、画面右上の右三角マーク(Build LaTeX project)をクリックすることでコンパイルされ、PDFファイルが生成されます。
+
+\end{document}
+"@  | Set-Content -Path "$examplelatexDir/$exampleName" -Encoding UTF8
+
+#| ForEach-Object { [Text.Encoding]::UTF8.GetBytes($_) }
+  $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+
+  #runas /machine:$(${env:PROCESSOR_ARCHITECTURE}.ToLower()) /trustlevel:0x40000 "$vscodeExePath `"$examplelatexDir`" `"$examplelatexDir/$exampleName`""
+
+Start-Process -FilePath "$vscodeExePath" -ArgumentList "`"$examplelatexDir/$exampleName`""
+
+
+  
+}
+
+
 
 if (Find-Executable "tlmgr") {
   if (Show-YesNoPrompt "TeX Live はすでにインストールされています。" "それでも TeX Live をインストールしますか?") {
