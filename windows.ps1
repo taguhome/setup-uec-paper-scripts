@@ -789,7 +789,7 @@ else{$vscodeExePath = $vscodeLocalExePath
 }
 
 
-$vscodeProcess = Start-Process -WindowStyle Hidden -FilePath "$vscodeExePath" -PassThru
+# $vscodeProcess = Start-Process -WindowStyle Hidden -FilePath "$vscodeExePath" -PassThru
 
 New-Item -ItemType Directory -Path "$examplelatexDir" -Force > $null
 @"
@@ -814,7 +814,6 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";
 
 #runas /machine:$(${env:PROCESSOR_ARCHITECTURE}.ToLower()) /trustlevel:0x40000 "$vscodeExePath `"$examplelatexDir`" `"$examplelatexDir/$exampleName`""
 
-Start-Process -FilePath "$vscodeExePath" -ArgumentList `"$examplelatexDir`"　"`"$examplelatexDir/$exampleName`""
 
 Start-Process -FilePath "$vscodeExePath" -ArgumentList "`"$examplelatexDir`" `"$examplelatexDir/$exampleName`""
 
