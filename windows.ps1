@@ -146,7 +146,7 @@ $pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存�
     # ぜひ SyncTeX 機能のあるビューアーをインストールしよう。
     # SumatraPDF: https://www.sumatrapdfreader.org/free-pdf-reader.html
     # $pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
-    "@ | Out-File -FilePath "$templatexPath/$latexmkrcName" 
+"@ | Out-File -FilePath "$templatexPath/$latexmkrcName" 
 
 
     # Write-Output $latexmkrcContent | Out-File -FilePath $templatexPath -Encoding UTF8 -Force
