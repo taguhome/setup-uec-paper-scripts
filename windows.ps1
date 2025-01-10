@@ -169,13 +169,7 @@ function make-example-latex() {
 
   $vscodeProcess = Start-Process -WindowStyle Hidden -FilePath "$vscodeExePath" -PassThru
 
-  @"
-{
-  "locale": "ja",
-}
-"@ | Out-File -FilePath "$vscodeArgvPath" -Encoding ascii
-
-  New-Item -ItemType Directory -Path "$examplelatexDir" -Force > $null
+ New-Item -ItemType Directory -Path "$examplelatexDir" -Force > $null
   @"
 \documentclass[a4paper,11pt]{ltjsarticle}
 
@@ -795,6 +789,9 @@ New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
 }
 "@ | Out-File -FilePath "$vscodeSettingsDir/$vscodeSettingsName" -Encoding ascii
 
+
+   (Get-Content -Encoding Ascii "$vscodeSettingsDir/$vscodeSettingsName") -replace "tagur", (Get-ChildItem Env:USERNAME).Value  | Out-File -FilePath "$vscodeSettingsDir/$vscodeSettingsName" -Encoding ascii
+
   Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension MS-CEINTL.vscode-language-pack-ja"
   Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension formulahendry.code-runner"
   Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension mammothb.gnuplot"
@@ -802,6 +799,15 @@ New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
   Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension mechatroner.rainbow-csv"
   Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension xyz.local-history"
   Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension amodio.restore-editors"
+
+
+  @"
+{
+  "locale": "ja",
+}
+"@ | Out-File -FilePath "$vscodeArgvPath" -Encoding ascii
+
+ 
 
   Pop-Location
   Remove-Item -Recurse "$workDir"
