@@ -800,6 +800,8 @@ New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
   Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension mammothb.gnuplot"
   Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension James-Yu.latex-workshop"
   Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension mechatroner.rainbow-csv"
+  Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension xyz.local-history"
+  Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension amodio.restore-editors"
 
   Pop-Location
   Remove-Item -Recurse "$workDir"
