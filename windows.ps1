@@ -102,7 +102,7 @@ $pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存�
 # $pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
 "@
 
-    New-Item -ItemType Directory -Path "$env:USERPROFILE/latexmkrc" -Force > $null
+    # New-Item -ItemType Directory -Path "$env:USERPROFILE/latexmkrc" -Force > $null
     $templatexPath = "$env:USERPROFILE/latexmkrc"
    
      @"
@@ -146,12 +146,12 @@ $pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存�
     # ぜひ SyncTeX 機能のあるビューアーをインストールしよう。
     # SumatraPDF: https://www.sumatrapdfreader.org/free-pdf-reader.html
     # $pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
-"@ | Out-File -FilePath "$env:USERPROFILE/$latexmkrcName" 
+"@ | Out-File -FilePath "$env:USERPROFILE/.vscode/$latexmkrcName" 
 
 
     # Write-Output $latexmkrcContent | Out-File -FilePath $templatexPath -Encoding UTF8 -Force
 
-    Move-Item -Path "$templatexPath/$latexmkrcName" -Destination "$env:USERPROFILE" -Force
+    Move-Item -Path "$env:USERPROFILE/.vscode/$latexmkrcName" -Destination "$env:USERPROFILE" -Force
 
 
 }
