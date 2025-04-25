@@ -60,50 +60,77 @@ function Copy-AdditionalFiles() {
 
     Write-LabeledOutput "ファイルコピー" ".latexmkrc を VSCode ユーザースペースに反映しています..."
 
-    $templatexPath = "$env:USERPROFILE/latexmkrc"
+#     $templatexPath = "$env:USERPROFILE/latexmkrc"
    
-     @"
-    # 通常の LaTeX ドキュメントのビルドコマンド
-    ${0}latex = 'uplatex %O -kanji=utf8 -no-guess-input-enc -synctex=1 -interaction=nonstopmode %S';
-    #
-  　 ${0}uplatex = 'uplatex %O  -synctex=1 -interaction=nonstopmode %S';
-    # pdfLaTeX のビルドコマンド
-    ${0}pdflatex = 'pdflatex %O -synctex=1 -interaction=nonstopmode %S';
-    # LuaLaTeX のビルドコマンド
-    ${0}lualatex = 'lualatex %O -synctex=1 -interaction=nonstopmode %S';
-    # XeLaTeX のビルドコマンド
-    ${0}xelatex = 'xelatex %O -no-pdf -synctex=1 -shell-escape -interaction=nonstopmode %S';
-    # Biber, BibTeX のビルドコマンド
-    ${0}biber = 'biber %O --bblencoding=utf8 -u -U --output_safechars %B';
-    #$bibtex = 'upbibtex %O %B';
-    ${0}platex= 'platex %O -synctex=1 -halt-on-error -interaction=nonstopmode -file-line-error %O %S';
-    #${0}bibtex = 'upbibtex %O %B';
-    ${0}bibtex = 'pbibtex %O %B';
-    # makeindex のビルドコマンド
-    ${0}makeindex = 'upmendex %O -o %D %S';
-    # dvipdf のビルドコマンド
-    ${0}dvipdf = 'dvipdfmx %O -o %D %S';
-    # dvipd のビルドコマンド
-    ${0}dvips = 'dvips %O -z -f %S | convbkmk -u > %D';
-    ${0}ps2pdf = 'ps2pdf.exe %O %S %D';
+#      @"
+#     # 通常の LaTeX ドキュメントのビルドコマンド
+#     ${0}latex = 'uplatex %O -kanji=utf8 -no-guess-input-enc -synctex=1 -interaction=nonstopmode %S';
+#     #
+#   　 ${0}uplatex = 'uplatex %O  -synctex=1 -interaction=nonstopmode %S';
+#     # pdfLaTeX のビルドコマンド
+#     ${0}pdflatex = 'pdflatex %O -synctex=1 -interaction=nonstopmode %S';
+#     # LuaLaTeX のビルドコマンド
+#     ${0}lualatex = 'lualatex %O -synctex=1 -interaction=nonstopmode %S';
+#     # XeLaTeX のビルドコマンド
+#     ${0}xelatex = 'xelatex %O -no-pdf -synctex=1 -shell-escape -interaction=nonstopmode %S';
+#     # Biber, BibTeX のビルドコマンド
+#     ${0}biber = 'biber %O --bblencoding=utf8 -u -U --output_safechars %B';
+#     #$bibtex = 'upbibtex %O %B';
+#     ${0}platex= 'platex %O -synctex=1 -halt-on-error -interaction=nonstopmode -file-line-error %O %S';
+#     #${0}bibtex = 'upbibtex %O %B';
+#     ${0}bibtex = 'pbibtex %O %B';
+#     # makeindex のビルドコマンド
+#     ${0}makeindex = 'upmendex %O -o %D %S';
+#     # dvipdf のビルドコマンド
+#     ${0}dvipdf = 'dvipdfmx %O -o %D %S';
+#     # dvipd のビルドコマンド
+#     ${0}dvips = 'dvips %O -z -f %S | convbkmk -u > %D';
+#     ${0}ps2pdf = 'ps2pdf.exe %O %S %D';
 
-    # PDF の作成方法を指定するオプション
-    ## ${0}pdf_mode = 0; PDF を作成しない。
-    ## ${0}pdf_mode = 1; $pdflatex を利用して PDF を作成。
-    ## ${0}pdf_mode = 2; $ps2pdf を利用して .ps ファイルから PDF を作成。
-    ## ${0}pdf_mode = 3; $dvipdf を利用して .dvi ファイルから PDF を作成。
-    ## ${0}pdf_mode = 4; $lualatex を利用して .dvi ファイルから PDF を作成。
-    ## ${0}pdf_mode = 5; xdvipdfmx を利用して .xdv ファイルから PDF を作成。
-    ${0}pdf_mode = 4;
+#     # PDF の作成方法を指定するオプション
+#     ## ${0}pdf_mode = 0; PDF を作成しない。
+#     ## ${0}pdf_mode = 1; $pdflatex を利用して PDF を作成。
+#     ## ${0}pdf_mode = 2; $ps2pdf を利用して .ps ファイルから PDF を作成。
+#     ## ${0}pdf_mode = 3; $dvipdf を利用して .dvi ファイルから PDF を作成。
+#     ## ${0}pdf_mode = 4; $lualatex を利用して .dvi ファイルから PDF を作成。
+#     ## ${0}pdf_mode = 5; xdvipdfmx を利用して .xdv ファイルから PDF を作成。
+#     ${0}pdf_mode = 4;
 
-    # PDF viewer の設定
-    ${0}pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存のソフトウェアで表示する。
+#     # PDF viewer の設定
+#     ${0}pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存のソフトウェアで表示する。
 
-    # Windows では SyncTeX(PDF をビューアーで開いたまま中身の更新が可能で更新がビューアーで反映される機能) が利用できる SumatraPDF 等が便利。
-    # ぜひ SyncTeX 機能のあるビューアーをインストールしよう。
-    # SumatraPDF: https://www.sumatrapdfreader.org/free-pdf-reader.html
-    # ${0}pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
-"@ -f '$',| Out-File -FilePath "$env:USERPROFILE/.vscode/$latexmkrcName"  -Encoding UTF8 -Force
+#     # Windows では SyncTeX(PDF をビューアーで開いたまま中身の更新が可能で更新がビューアーで反映される機能) が利用できる SumatraPDF 等が便利。
+#     # ぜひ SyncTeX 機能のあるビューアーをインストールしよう。
+#     # SumatraPDF: https://www.sumatrapdfreader.org/free-pdf-reader.html
+#     # ${0}pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
+# "@ -f '$',| Out-File -FilePath "$env:USERPROFILE/.vscode/$latexmkrcName"  -Encoding UTF8 -Force
+
+$sumatraPath = "$env:USERPROFILE/AppData/Local/SumatraPDF/SumatraPDF.exe"
+
+$latexmkrcContent = @'
+# 通常の LaTeX ドキュメントのビルドコマンド
+${0}latex = 'uplatex %O -kanji=utf8 -no-guess-input-enc -synctex=1 -interaction=nonstopmode %S';
+${0}uplatex = 'uplatex %O  -synctex=1 -interaction=nonstopmode %S';
+${0}pdflatex = 'pdflatex %O -synctex=1 -interaction=nonstopmode %S';
+${0}lualatex = 'lualatex %O -synctex=1 -interaction=nonstopmode %S';
+${0}xelatex = 'xelatex %O -no-pdf -synctex=1 -shell-escape -interaction=nonstopmode %S';
+${0}biber = 'biber %O --bblencoding=utf8 -u -U --output_safechars %B';
+${0}platex = 'platex %O -synctex=1 -halt-on-error -interaction=nonstopmode -file-line-error %O %S';
+${0}bibtex = 'pbibtex %O %B';
+${0}makeindex = 'upmendex %O -o %D %S';
+${0}dvipdf = 'dvipdfmx %O -o %D %S';
+${0}dvips = 'dvips %O -z -f %S | convbkmk -u > %D';
+${0}ps2pdf = 'ps2pdf.exe %O %S %D';
+
+${0}pdf_mode = 4;
+${0}pdf_previewer = "start %S";
+
+# SyncTeX対応のPDFビューアのパス例（SumatraPDF）
+# ${0}pdf_previewer = '{1} -reuse-instance';
+'@ -f '$', $sumatraPath
+
+$latexmkrcPath = "$env:USERPROFILE/latexmkrc"
+$latexmkrcContent | Out-File -FilePath $latexmkrcPath -Encoding UTF8 -Force
 
 
     # Write-Output $latexmkrcContent | Out-File -FilePath $templatexPath -Encoding UTF8 -Force
