@@ -176,7 +176,7 @@ Write-LabeledOutput "Visual Studio Code" "インストールを開始します"
 
 New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
 
-@"
+@'
 {
    // 和文を使うため、助詞、句読点、全角括弧などを区切り文字として登録する
    "editor.wordSeparators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?　、。「」【】『』（）！？てにをはがのともへでや",
@@ -706,19 +706,19 @@ New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
    ],
    // "editor.formatOnPaste": true,
 }
-"@ | Out-File -FilePath "$vscodeSettingsDir/$vscodeSettingsName" -Encoding ascii
+'@ | Out-File -FilePath "$vscodeSettingsDir/$vscodeSettingsName" -Encoding ascii
 
 
 (Get-Content -Encoding Ascii "$vscodeSettingsDir/$vscodeSettingsName") -replace "tagur", (Get-ChildItem Env:USERNAME).Value  | Out-File -FilePath "$vscodeSettingsDir/$vscodeSettingsName" -Encoding ascii
 
-Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension MS-CEINTL.vscode-language-pack-ja"
+
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension formulahendry.code-runner"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension mammothb.gnuplot"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension James-Yu.latex-workshop"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension mechatroner.rainbow-csv"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension xyz.local-history"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension amodio.restore-editors"
-
+Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension MS-CEINTL.vscode-language-pack-ja"
 
 @"
 {
@@ -775,6 +775,11 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";
 
 #runas /machine:$(${env:PROCESSOR_ARCHITECTURE}.ToLower()) /trustlevel:0x40000 "$vscodeExePath `"$examplelatexDir`" `"$examplelatexDir/$exampleName`""
 
+@"
+{
+ "locale": "ja",
+ }
+"@ | Out-File -FilePath "$vscodeArgvPath" -Encoding ascii
 
 Start-Process -FilePath "$vscodeExePath" -ArgumentList "`"$examplelatexDir`" `"$examplelatexDir/$exampleName`""
 
