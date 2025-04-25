@@ -63,7 +63,7 @@ function Copy-AdditionalFiles() {
 
     $templatexPath = "$env:USERPROFILE/latexmkrc"
    
-     @"
+@'
     # 通常の LaTeX ドキュメントのビルドコマンド
     $latex = 'uplatex %O -kanji=utf8 -no-guess-input-enc -synctex=1 -interaction=nonstopmode %S';
     #
@@ -104,7 +104,7 @@ function Copy-AdditionalFiles() {
     # ぜひ SyncTeX 機能のあるビューアーをインストールしよう。
     # SumatraPDF: https://www.sumatrapdfreader.org/free-pdf-reader.html
     # $pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
-"@ | Out-File -FilePath "$env:USERPROFILE/.vscode/$latexmkrcName"  -Encoding UTF8 -Force
+'@ | Out-File -FilePath "$env:USERPROFILE/.vscode/$latexmkrcName"  -Encoding UTF8 -Force
 
 
     # Write-Output $latexmkrcContent | Out-File -FilePath $templatexPath -Encoding UTF8 -Force
