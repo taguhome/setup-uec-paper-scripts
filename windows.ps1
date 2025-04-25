@@ -786,7 +786,6 @@ Start-Process -FilePath "$vscodeExePath" -ArgumentList "`"$examplelatexDir`" `"$
 
   Pop-Location
   Start-Sleep -Seconds 5
-  Remove-Item -Recurse "$workDir"
 }
 
 
