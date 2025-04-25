@@ -113,7 +113,7 @@ $latexmkrcContent | Out-File  -FilePath "$env:USERPROFILE/.vscode/$latexmkrcName
 
     # Write-Output $latexmkrcContent | Out-File -FilePath $templatexPath -Encoding UTF8 -Force
 
-    Move-Item -Path "$env:USERPROFILE/.vscode/$latexmkrcName" -Destination "$env:USERPROFILE" -Force
+    Move-Item -Path "$env:USERPROFILE/.vscode/$latexmkrcName" -Destination "$env:USERPROFILE" -Encoding UTF8 -Force
 
 
 }
