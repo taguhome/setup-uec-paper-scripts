@@ -765,7 +765,12 @@ New-Item -ItemType Directory -Path "$examplelatexDir" -Force > $null
 
 VSCode + \LaTeX の環境構築が完了しました！
 
-この文書は、画面右上の右三角マーク(Build LaTeX project)をクリックすることでコンパイルされ、PDFファイルが生成されます。
+この文書は、画面右上の右三角マーク(Build LaTeX project)をクリックすることでコンパイルされ、PDFファイルが生成されます。\\
+なお，vscodeが日本語設定にならない場合は，argv.jsonファイルの中を
+\{
+ "locale": "ja",
+ \}
+だけにして，再起動してください。
 
 \end{document}
 "@  | Set-Content -Path "$examplelatexDir/$exampleName" -Encoding UTF8
