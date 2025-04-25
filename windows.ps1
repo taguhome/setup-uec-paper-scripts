@@ -752,18 +752,18 @@ New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
 
 (Get-Content -Encoding Ascii "$vscodeSettingsDir/$vscodeSettingsName") -replace "tagur", (Get-ChildItem Env:USERNAME).Value  | Out-File -FilePath "$vscodeSettingsDir/$vscodeSettingsName" -Encoding ascii
 
-Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension MS-CEINTL.vscode-language-pack-ja"
+
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension formulahendry.code-runner"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension mammothb.gnuplot"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension James-Yu.latex-workshop"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension mechatroner.rainbow-csv"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension xyz.local-history"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension amodio.restore-editors"
-
+Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension MS-CEINTL.vscode-language-pack-ja"
 
 @"
 {
- "locale": "ja",
+   "locale": "ja",}
 
 "@ | Out-File -FilePath "$vscodeArgvPath" -Encoding ascii
 
