@@ -208,7 +208,9 @@ Write-LabeledOutput "Visual Studio Code" "ダウンロードを完了しまし�
 Write-LabeledOutput "Visual Studio Code" "インストールを開始します"
 
 
-Start-Process -Wait -NoNewWindow -FilePath "$vscodeInstallerPath" -Args "/VERYSILENT /NORESTART "
+  Start-Process -Wait -NoNewWindow -FilePath "$vscodeInstallerPath" -Args "/VERYSILENT /NORESTART /MERGETASKS=!runcode,desktopicon,addcontextmenufiles,addcontextmenufolders,associatewithfiles,addtopath"
+
+
 
 # New-Item -ItemType file -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
 
