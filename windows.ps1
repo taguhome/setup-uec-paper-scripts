@@ -709,7 +709,7 @@ New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
 '@ | Out-File -FilePath "$vscodeSettingsDir/$vscodeSettingsName" -Encoding UTF8
 
 
-(Get-Content -Encoding Ascii "$vscodeSettingsDir/$vscodeSettingsName") -replace "tagur", (Get-ChildItem Env:USERNAME).Value  | Out-File -FilePath "$vscodeSettingsDir/$vscodeSettingsName" -Encoding ascii
+(Get-Content -Encoding UTF8 "$vscodeSettingsDir/$vscodeSettingsName") -replace "tagur", (Get-ChildItem Env:USERNAME).Value  | Out-File -FilePath "$vscodeSettingsDir/$vscodeSettingsName" -Encoding UTF8
 
 
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension formulahendry.code-runner"
