@@ -347,34 +347,34 @@ New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
                "%DOC%"
            ]
        },
-       {
-           "name": "Pandoc (PDF to Word)",
-           "command": "pandoc",
-           "args": [
-               "%DOC%.pdf",
-               "-o",
-               "%DOC%.docx"
-           ],
-       },
-       {
-           "name": "pdf2word",
-           "command": "python",
-           "args": [
-               "C:\\Users\\tagur\\.vscode\\tex\\pdf_to_word.py", // Pythonスクリプトのパスを指定
-               "%DOC%"
-           ],
-           "env": {
-               "INPUT_PDF": "%OUTDIR%/%DOCFILE%.pdf" // PDFファイルのパスを環境変数として設定
-           }
-       },
-       {
-           "name": "convert_backslash_to_slash",
-           "command": "python",
-           "args": [
-               "C:\\Users\\tagur\\.vscode\\tex\\kennkyuhoukokusyo\\BS_to_S.py",
-               "%DOC%"
-           ]
-       },
+       # {
+       #     "name": "Pandoc (PDF to Word)",
+       #     "command": "pandoc",
+       #     "args": [
+       #         "%DOC%.pdf",
+       #         "-o",
+       #         "%DOC%.docx"
+       #     ],
+       # },
+       # {
+       #     "name": "pdf2word",
+       #     "command": "python",
+       #     "args": [
+       #         "C:\\Users\\tagur\\.vscode\\tex\\pdf_to_word.py", // Pythonスクリプトのパスを指定
+       #         "%DOC%"
+       #     ],
+       #     "env": {
+       #         "INPUT_PDF": "%OUTDIR%/%DOCFILE%.pdf" // PDFファイルのパスを環境変数として設定
+       #     }
+       # },
+       # {
+       #     "name": "convert_backslash_to_slash",
+       #     "command": "python",
+       #     "args": [
+       #         "C:\\Users\\tagur\\.vscode\\tex\\kennkyuhoukokusyo\\BS_to_S.py",
+       #         "%DOC%"
+       #     ]
+       # },
        {
            "name": "convert-bs-to-s",
            "command": "powershell",
@@ -809,7 +809,8 @@ VSCode + \LaTeX の環境構築が完了しました！
 この文書は、画面右上の右三角マーク(Build LaTeX project)をクリックすることでコンパイルされ、PDFファイルが生成されます。
 
 \end{document}
-"@  | Set-Content -Path "$examplelatexDir/$exampleName" -Encoding UTF8
+"@ | ForEach-Object { [Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path "$exampleDir/$exampleName" -Encoding Byte
+# "@  | Set-Content -Path "$examplelatexDir/$exampleName" -Encoding UTF8
 
 #| ForEach-Object { [Text.Encoding]::UTF8.GetBytes($_) }
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
