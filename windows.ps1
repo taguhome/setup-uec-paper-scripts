@@ -768,6 +768,16 @@ VSCode + \LaTeX の環境構築が完了しました！
 この文書は、画面右上の右三角マーク(Build LaTeX project)をクリックすることでコンパイルされ、PDFファイルが生成されます。\\
 なお，vscodeが日本語設定にならない場合は，argv.jsonファイルの中を
 \{
+	"locale": "ja",
+	// Allows to disable crash reporting.
+	// Should restart the app if the value is changed.
+	"enable-crash-reporter": true,
+	// Unique id used for correlating crash reports sent from this instance.
+	// Do not edit this value.
+	"crash-reporter-id": "95225cb7-1d71-4eb4-bec9-b9fdd3472a98"
+\}
+のような形するか，
+\{
  "locale": "ja",
  \}
 だけにして，再起動してください。
