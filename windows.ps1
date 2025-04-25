@@ -104,7 +104,7 @@ function Copy-AdditionalFiles() {
     # ぜひ SyncTeX 機能のあるビューアーをインストールしよう。
     # SumatraPDF: https://www.sumatrapdfreader.org/free-pdf-reader.html
     # $pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
-"@ -f '$', | Out-File -FilePath "$env:USERPROFILE/.vscode/$latexmkrcName" 
+"@ -f '$' | Out-File -FilePath "$env:USERPROFILE/.vscode/$latexmkrcName" 
 
 
     # Write-Output $latexmkrcContent | Out-File -FilePath $templatexPath -Encoding UTF8 -Force
