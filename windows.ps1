@@ -706,7 +706,7 @@ New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
    ],
    // "editor.formatOnPaste": true,
 }
-'@ | Out-File -FilePath "$vscodeSettingsDir/$vscodeSettingsName" -Encoding ascii
+'@ | Out-File -FilePath "$vscodeSettingsDir/$vscodeSettingsName" -Encoding UTF8
 
 
 (Get-Content -Encoding Ascii "$vscodeSettingsDir/$vscodeSettingsName") -replace "tagur", (Get-ChildItem Env:USERNAME).Value  | Out-File -FilePath "$vscodeSettingsDir/$vscodeSettingsName" -Encoding ascii
