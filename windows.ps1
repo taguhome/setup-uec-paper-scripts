@@ -1,5 +1,4 @@
-
-﻿#Requires -RunAsAdministrator
+#Requires -RunAsAdministrator
 
 function Find-Executable (
   [string] $command
@@ -60,10 +59,54 @@ function Copy-AdditionalFiles() {
     Start-BitsTransfer -Source "$latexJsonURL" -Destination "$vscodeSettingsDir/snippets/latex.json"
 
     Write-LabeledOutput "ファイルコピー" ".latexmkrc を VSCode ユーザースペースに反映しています..."
+    # New-Item -ItemType Directory -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
+    $latexmkrcContent = @"
+# 通常の LaTeX ドキュメントのビルドコマンド
+$latex = 'uplatex %O -kanji=utf8 -no-guess-input-enc -synctex=1 -interaction=nonstopmode %S';
+#
+$uplatex = 'uplatex %O  -synctex=1 -interaction=nonstopmode %S';
+# pdfLaTeX のビルドコマンド
+$pdflatex = 'pdflatex %O -synctex=1 -interaction=nonstopmode %S';
+# LuaLaTeX のビルドコマンド
+$lualatex = 'lualatex %O -synctex=1 -interaction=nonstopmode %S';
+# XeLaTeX のビルドコマンド
+$xelatex = 'xelatex %O -no-pdf -synctex=1 -shell-escape -interaction=nonstopmode %S';
+# Biber, BibTeX のビルドコマンド
+$biber = 'biber %O --bblencoding=utf8 -u -U --output_safechars %B';
+#$bibtex = 'upbibtex %O %B';
+$platex= 'platex %O -synctex=1 -halt-on-error -interaction=nonstopmode -file-line-error %O %S';
+#$bibtex = 'upbibtex %O %B';
+$bibtex = 'pbibtex %O %B';
+# makeindex のビルドコマンド
+$makeindex = 'upmendex %O -o %D %S';
+# dvipdf のビルドコマンド
+$dvipdf = 'dvipdfmx %O -o %D %S';
+# dvipd のビルドコマンド
+$dvips = 'dvips %O -z -f %S | convbkmk -u > %D';
+$ps2pdf = 'ps2pdf.exe %O %S %D';
 
+# PDF の作成方法を指定するオプション
+## $pdf_mode = 0; PDF を作成しない。
+## $pdf_mode = 1; $pdflatex を利用して PDF を作成。
+## $pdf_mode = 2; $ps2pdf を利用して .ps ファイルから PDF を作成。
+## $pdf_mode = 3; $dvipdf を利用して .dvi ファイルから PDF を作成。
+## $pdf_mode = 4; $lualatex を利用して .dvi ファイルから PDF を作成。
+## $pdf_mode = 5; xdvipdfmx を利用して .xdv ファイルから PDF を作成。
+$pdf_mode = 4;
+
+# PDF viewer の設定
+$pdf_previewer = "start %S";  # "start %S": .pdf に関連付けられた既存のソフトウェアで表示する。
+
+# Windows では SyncTeX(PDF をビューアーで開いたまま中身の更新が可能で更新がビューアーで反映される機能) が利用できる SumatraPDF 等が便利。
+# ぜひ SyncTeX 機能のあるビューアーをインストールしよう。
+# SumatraPDF: https://www.sumatrapdfreader.org/free-pdf-reader.html
+# $pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
+"@
+
+    # New-Item -ItemType Directory -Path "$env:USERPROFILE/latexmkrc" -Force > $null
     $templatexPath = "$env:USERPROFILE/latexmkrc"
    
-@"
+     @"
     # 通常の LaTeX ドキュメントのビルドコマンド
     $latex = 'uplatex %O -kanji=utf8 -no-guess-input-enc -synctex=1 -interaction=nonstopmode %S';
     #
@@ -104,7 +147,7 @@ function Copy-AdditionalFiles() {
     # ぜひ SyncTeX 機能のあるビューアーをインストールしよう。
     # SumatraPDF: https://www.sumatrapdfreader.org/free-pdf-reader.html
     # $pdf_previewer = $ENV{'USERPROFILE'} . '/AppData/Local/SumatraPDF/SumatraPDF.exe -reuse-instance';
-"@ | Out-File -FilePath "$env:USERPROFILE/.vscode/$latexmkrcName"  -Encoding UTF8 -Force
+"@ | Out-File -FilePath "$env:USERPROFILE/.vscode/$latexmkrcName" 
 
 
     # Write-Output $latexmkrcContent | Out-File -FilePath $templatexPath -Encoding UTF8 -Force
@@ -165,9 +208,7 @@ Write-LabeledOutput "Visual Studio Code" "ダウンロードを完了しまし�
 Write-LabeledOutput "Visual Studio Code" "インストールを開始します"
 
 
-  Start-Process -Wait -NoNewWindow -FilePath "$vscodeInstallerPath" -Args "/VERYSILENT /NORESTART /MERGETASKS=!runcode,desktopicon,addcontextmenufiles,addcontextmenufolders,associatewithfiles,addtopath"
-
-
+Start-Process -Wait -NoNewWindow -FilePath "$vscodeInstallerPath" -Args "/VERYSILENT /NORESTART "
 
 # New-Item -ItemType file -Path "$env:USERPROFILE/.latexmkrc" -Force > $null
 
@@ -304,34 +345,34 @@ New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
                "%DOC%"
            ]
        },
-       # {
-       #     "name": "Pandoc (PDF to Word)",
-       #     "command": "pandoc",
-       #     "args": [
-       #         "%DOC%.pdf",
-       #         "-o",
-       #         "%DOC%.docx"
-       #     ],
-       # },
-       # {
-       #     "name": "pdf2word",
-       #     "command": "python",
-       #     "args": [
-       #         "C:\\Users\\tagur\\.vscode\\tex\\pdf_to_word.py", // Pythonスクリプトのパスを指定
-       #         "%DOC%"
-       #     ],
-       #     "env": {
-       #         "INPUT_PDF": "%OUTDIR%/%DOCFILE%.pdf" // PDFファイルのパスを環境変数として設定
-       #     }
-       # },
-       # {
-       #     "name": "convert_backslash_to_slash",
-       #     "command": "python",
-       #     "args": [
-       #         "C:\\Users\\tagur\\.vscode\\tex\\kennkyuhoukokusyo\\BS_to_S.py",
-       #         "%DOC%"
-       #     ]
-       # },
+       {
+           "name": "Pandoc (PDF to Word)",
+           "command": "pandoc",
+           "args": [
+               "%DOC%.pdf",
+               "-o",
+               "%DOC%.docx"
+           ],
+       },
+       {
+           "name": "pdf2word",
+           "command": "python",
+           "args": [
+               "C:\\Users\\tagur\\.vscode\\tex\\pdf_to_word.py", // Pythonスクリプトのパスを指定
+               "%DOC%"
+           ],
+           "env": {
+               "INPUT_PDF": "%OUTDIR%/%DOCFILE%.pdf" // PDFファイルのパスを環境変数として設定
+           }
+       },
+       {
+           "name": "convert_backslash_to_slash",
+           "command": "python",
+           "args": [
+               "C:\\Users\\tagur\\.vscode\\tex\\kennkyuhoukokusyo\\BS_to_S.py",
+               "%DOC%"
+           ]
+       },
        {
            "name": "convert-bs-to-s",
            "command": "powershell",
@@ -709,18 +750,18 @@ New-Item -ItemType Directory -Path "$vscodeSettingsDir" -Force > $null
 
 (Get-Content -Encoding Ascii "$vscodeSettingsDir/$vscodeSettingsName") -replace "tagur", (Get-ChildItem Env:USERNAME).Value  | Out-File -FilePath "$vscodeSettingsDir/$vscodeSettingsName" -Encoding ascii
 
-
+Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension MS-CEINTL.vscode-language-pack-ja"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension formulahendry.code-runner"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension mammothb.gnuplot"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension James-Yu.latex-workshop"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension mechatroner.rainbow-csv"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension xyz.local-history"
 Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension amodio.restore-editors"
-Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-extension MS-CEINTL.vscode-language-pack-ja"
+
 
 @"
 {
-   "locale": "ja",}
+ "locale": "ja",
 
 "@ | Out-File -FilePath "$vscodeArgvPath" -Encoding ascii
 
@@ -766,8 +807,7 @@ VSCode + \LaTeX の環境構築が完了しました！
 この文書は、画面右上の右三角マーク(Build LaTeX project)をクリックすることでコンパイルされ、PDFファイルが生成されます。
 
 \end{document}
-"@ | ForEach-Object { [Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path "$exampleDir/$exampleName" -Encoding Byte
-# "@  | Set-Content -Path "$examplelatexDir/$exampleName" -Encoding UTF8
+"@  | Set-Content -Path "$examplelatexDir/$exampleName" -Encoding UTF8
 
 #| ForEach-Object { [Text.Encoding]::UTF8.GetBytes($_) }
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
