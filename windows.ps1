@@ -762,7 +762,7 @@ Start-Process -Wait -NoNewWindow -FilePath "$vscodeCmdPath" -Args "--install-ext
 @"
 {
  "locale": "ja",
-}
+
 "@ | Out-File -FilePath "$vscodeArgvPath" -Encoding ascii
 
 
