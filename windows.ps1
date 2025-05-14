@@ -126,7 +126,6 @@ Remove-Item -Recurse *
 @"
 selected_scheme scheme-custom
 
-collection-basic 1
 collection-langjapanese 1
 collection-latexextra 1
 collection-mathscience 1
